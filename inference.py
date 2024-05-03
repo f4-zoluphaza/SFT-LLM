@@ -3,13 +3,13 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 question = "Write your questions Here"
 
-model_path='./path_to_finetuned_model'
+model_path='beomi/open-llama-2-ko-7b'
 
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map='auto')
 
 prompt = question
-prompt_template = f'''Write your Prompts here
+prompt_template = f'''딥러닝이 뭐야?
 '''
 inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
 
