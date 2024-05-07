@@ -14,7 +14,7 @@ print(dataset[:5])
 
 # 데이터셋 생성 및 저장
 dataset = Dataset.from_dict({"text": dataset})
-dataset.save_to_disk('your_path')
+dataset.save_to_disk('path_to_custom_dataset')
 
 # 데이터셋 info 확인
 print('데이터셋 info 확인')
