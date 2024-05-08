@@ -20,7 +20,7 @@ tokenizer.padding_side = "right"
 
 training_args = transformers.TrainingArguments(
             output_dir="./path_to_save_model",
-            num_train_epochs=20,
+            num_train_epochs=3,
             per_device_train_batch_size=4,
             per_device_eval_batch_size=4,
             gradient_accumulation_steps=1,
