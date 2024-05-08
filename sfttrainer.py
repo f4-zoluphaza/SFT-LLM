@@ -5,16 +5,18 @@ from datasets import load_from_disk
 from trl import SFTTrainer
 import os
 
-os.environ["huggingface_token"] = "YOUR_TOKEN" #llama2 models need to grant access
+os.environ["huggingface_token"] = "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" 
 
 dataset = load_from_disk('./path_to_custom_dataset')
 
 # model_name="huggingface_llama2_models"
 # model_name="ainize/kobart-news"
-# model_name="beomi/open-llama-2-ko-7b"
+# # model_name="beomi/open-llama-2-ko-7b"
 model_name="saltlux/Ko-Llama3-Luxia-8B"
+model_name="beomi/llama-2-koen-13b"
 
-model = AutoModelForCausalLM.from_pretrained(model_name ,device_map="auto", use_auth_token=os.environ["huggingface_token"])
+
+model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 tokenizer.pad_token = tokenizer.eos_token
