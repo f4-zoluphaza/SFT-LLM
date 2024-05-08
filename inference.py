@@ -56,8 +56,8 @@ question = '''Cluster: 4, Text: 키움 히어로즈가 한화 이글스와의 3�
 <저작권자 © 스포츠타임스, 무단 전재 및 재배포 금지>
 '''
 
-# model_path='beomi/open-llama-2-ko-7b'
-model_path='./path_to_save_model'
+model_path='beomi/open-llama-2-ko-7b'
+# model_path='./path_to_save_model'
 
 
 tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -73,13 +73,18 @@ instruction = '''당신은 뉴스레터를 만드는 뉴스레터 작성자입�
 # prompt_template = f'''
 # 뉴스기사 데이터: {question} instruction: {instruction} 
 # '''
+
 # prompt_template = f'''
-# ###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
+# instruction: {instruction}  뉴스기사 데이터: {question}
 # '''
 
 prompt_template = f'''
-뉴스기사 데이터: {question}
+###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
 '''
+
+# prompt_template = f'''
+# 뉴스기사 데이터: {question}
+# '''
 
 inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
 
