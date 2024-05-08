@@ -9,8 +9,6 @@ model_path='./path_to_save_model'
 
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map='auto')
-
-prompt = question
 # prompt_template = f'''딥러닝이 뭐야?
 # '''
 
@@ -53,7 +51,7 @@ Cluster: 4, Text: 최약체로 지목됐던 키움 히어로즈가 한화 이글
 inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
 
 # Generate
-generate_ids = model.generate(inputs.input_ids, max_length=4096)
+generate_ids = model.generate(inputs.input_ids, max_length=2048)
 generated_text=tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
 

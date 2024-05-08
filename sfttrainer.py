@@ -10,9 +10,11 @@ os.environ["huggingface_token"] = "YOUR_TOKEN" #llama2 models need to grant acce
 dataset = load_from_disk('./path_to_custom_dataset')
 
 # model_name="huggingface_llama2_models"
-model_name="beomi/open-llama-2-ko-7b"
+# model_name="ainize/kobart-news"
+# model_name="beomi/open-llama-2-ko-7b"
+model_name="saltlux/Ko-Llama3-Luxia-8B"
 
-model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+model = AutoModelForCausalLM.from_pretrained(model_name ,device_map="auto", use_auth_token=os.environ["huggingface_token"])
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 tokenizer.pad_token = tokenizer.eos_token
@@ -20,7 +22,7 @@ tokenizer.padding_side = "right"
 
 training_args = transformers.TrainingArguments(
             output_dir="./path_to_save_model",
-            num_train_epochs=20,
+            num_train_epochs=3,
             per_device_train_batch_size=4,
             per_device_eval_batch_size=4,
             gradient_accumulation_steps=1,
