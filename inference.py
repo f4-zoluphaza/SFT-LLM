@@ -1,7 +1,10 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f22e417dd7b8ea6dabc2d8d35aa6b6d9dc7ea3f1
 question = '''Cluster: 4, Text: 키움 히어로즈가 한화 이글스와의 3연전을 쓸어 담고 7연승을 내달렸다.
 키움은 7일 서울 고척스카이돔에서 열린 2024 신한 SOL 뱅크 KBO리그 홈경기에서 연장 접전 끝에 한화를 4-3으로 제압했다. 이로써 키움은 개막 4연패 이후 쾌조의 7연승을 달리며 리그 상위권으로 도약했다.
 반면 한화는 개막 후 10경기까지 구단 사상 최고 승률(8승 2패)을 찍었다가 이후 3연패로 분위기가 가라앉았다.
