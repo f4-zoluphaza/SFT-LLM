@@ -13,7 +13,8 @@ dataset = load_from_disk('./path_to_custom_dataset')
 # model_name="ainize/kobart-news"
 # model_name="beomi/open-llama-2-ko-7b"
 # model_name="saltlux/Ko-Llama3-Luxia-8B"
-model_name="beomi/llama-2-koen-13b"
+# model_name="beomi/llama-2-koen-13b"
+model_name="Bllossom/llama-3-Korean-Bllossom-70B"
 
 
 model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto", use_auth_token=os.environ["huggingface_token"])
@@ -24,7 +25,7 @@ tokenizer.padding_side = "right"
 
 training_args = transformers.TrainingArguments(
             output_dir="./path_to_save_model",
-            num_train_epochs=3,
+            num_train_epochs=2,
             per_device_train_batch_size=4,
             per_device_eval_batch_size=4,
             gradient_accumulation_steps=1,
