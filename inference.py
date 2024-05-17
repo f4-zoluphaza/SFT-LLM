@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+
 question = '''Cluster: 4, Text: 키움 히어로즈가 한화 이글스와의 3연전을 쓸어 담고 7연승을 내달렸다.
 키움은 7일 서울 고척스카이돔에서 열린 2024 신한 SOL 뱅크 KBO리그 홈경기에서 연장 접전 끝에 한화를 4-3으로 제압했다. 이로써 키움은 개막 4연패 이후 쾌조의 7연승을 달리며 리그 상위권으로 도약했다.
 반면 한화는 개막 후 10경기까지 구단 사상 최고 승률(8승 2패)을 찍었다가 이후 3연패로 분위기가 가라앉았다.
@@ -54,13 +55,15 @@ prompt_template = f'''
 # instruction: {instruction}  뉴스기사 데이터: {question}
 # '''
 
+
 # prompt_template = f'''
 # ###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
 # '''
 
-# prompt_template = f'''
-# 뉴스기사 데이터: {question}
-# '''
+
+prompt_template = f'''
+뉴스기사 데이터: {question}
+'''
 
 inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
 
