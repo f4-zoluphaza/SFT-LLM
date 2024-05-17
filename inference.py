@@ -20,31 +20,43 @@ question = '''Cluster: 4, Text: 키움 히어로즈가 한화 이글스와의 3�
 <저작권자 © 스포츠타임스, 무단 전재 및 재배포 금지>
 '''
 
-model_path='beomi/open-llama-2-ko-7b'
-# model_path='./path_to_save_model'
+# model_path='beomi/open-llama-2-ko-7b'
+model_path='./path_to_save_model'
 
 
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map='auto')
 
-instruction = '''당신은 뉴스레터를 만드는 뉴스레터 작성자입니다.
-다음 규칙을 따라 답변을 생성해야 합니다.
-1. 주어진 뉴스의 문장을 그대로 사용하지 말고 새롭게 문장을 만들어라.
-2. 새로운 문장은 주어진 뉴스 내용을 토대로 작성해라.
-3. 700자 이하로 생성해라.
+# instruction = '''당신은 뉴스레터를 만드는 뉴스레터 작성자입니다.
+# 다음 규칙을 따라 답변을 생성해야 합니다.
+# 1. 제공된 뉴스의 문장을 그대로 사용하지 말고 새로운 문장을 만들어라.
+# 2. 문장은 제공된 뉴스 내용을 토대로 작성해라.
+# 3. 답변은 700자 이하로 생성해라.
+# 당신이 만드는 문장은 제공된 뉴스 내용을 토대로 작성할 것을 명심해라. 
+# 절대로 새로운 내용을 지어내지 않아야 한다.
+# '''
+
+instruction = '''You are a newsletter writer who creates newsletters.
+You must generate answers according to the following rules.
+1. Make a new sentence instead of using the sentence in the news provided.
+2. Write the sentences based on the news content provided.
+3. The answer should be no more than 700 characters.
+Remember to write the sentences you make based on the news content provided.
+You must only generate new information based on the contents of the provided news, and not invent anything arbitrarily.
+Never make up new content.
 '''
 
-# prompt_template = f'''
-# 뉴스기사 데이터: {question} instruction: {instruction} 
-# '''
+prompt_template = f'''
+뉴스기사 데이터: {question} instruction: {instruction} 
+'''
 
 # prompt_template = f'''
 # instruction: {instruction}  뉴스기사 데이터: {question}
 # '''
 
-prompt_template = f'''
-###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
-'''
+# prompt_template = f'''
+# ###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
+# '''
 
 # prompt_template = f'''
 # 뉴스기사 데이터: {question}
