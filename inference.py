@@ -1,6 +1,10 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
 question = '''Cluster: 4, Text: 키움 히어로즈가 한화 이글스와의 3연전을 쓸어 담고 7연승을 내달렸다.
 키움은 7일 서울 고척스카이돔에서 열린 2024 신한 SOL 뱅크 KBO리그 홈경기에서 연장 접전 끝에 한화를 4-3으로 제압했다. 이로써 키움은 개막 4연패 이후 쾌조의 7연승을 달리며 리그 상위권으로 도약했다.
 반면 한화는 개막 후 10경기까지 구단 사상 최고 승률(8승 2패)을 찍었다가 이후 3연패로 분위기가 가라앉았다.
@@ -27,35 +31,63 @@ model_path='Bllossom/llama-3-Korean-Bllossom-70B'
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map='auto')
 
+<<<<<<< HEAD
 instruction = '''
 You are a newsletter writer who creates newsletters.
+=======
+# instruction = '''당신은 뉴스레터를 만드는 뉴스레터 작성자입니다.
+# 다음 규칙을 따라 답변을 생성해야 합니다.
+# 1. 제공된 뉴스의 문장을 그대로 사용하지 말고 새로운 문장을 만들어라.
+# 2. 문장은 제공된 뉴스 내용을 토대로 작성해라.
+# 3. 답변은 700자 이하로 생성해라.
+# 당신이 만드는 문장은 제공된 뉴스 내용을 토대로 작성할 것을 명심해라. 
+# 절대로 새로운 내용을 지어내지 않아야 한다.
+# '''
+
+instruction = '''You are a newsletter writer who creates newsletters.
+>>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
 You must generate answers according to the following rules.
 1. Make a new sentence instead of using the sentence in the news provided.
 2. Write the sentences based on the news content provided.
 3. The answer should be no more than 700 characters.
 Remember to write the sentences you make based on the news content provided.
+<<<<<<< HEAD
 Never make up new content.
 
+=======
+You must only generate new information based on the contents of the provided news, and not invent anything arbitrarily.
+Never make up new content.
+>>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
 '''
 
-# prompt_template = f'''
-# 뉴스기사 데이터: {question} instruction: {instruction} 
-# '''
+prompt_template = f'''
+뉴스기사 데이터: {question} instruction: {instruction} 
+'''
 
 prompt_template = f'''
 instruction: {instruction}  뉴스기사 데이터: {question}
 '''
 
 
+
 # prompt_template = f'''
-# ##지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
+# ###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
 # '''
 
+<<<<<<< HEAD
 # prompt_template = f'''
 # 뉴스기사 데이터: {question}
 # '''
 inputs = tokenizer(prompt_template, return_tensors="pt", padding=True, truncation=True, max_length=1024)
 inputs = inputs.to("cuda")
+=======
+
+prompt_template = f'''
+뉴스기사 데이터: {question}
+'''
+
+inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
+>>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
 
 
 # Generate
