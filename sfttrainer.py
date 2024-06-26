@@ -6,18 +6,15 @@ from trl import SFTTrainer
 import os
 
 os.environ["huggingface_token"] = "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" 
+save_path = "path_to_save_model_5W1H_epochs3_llama2_13b"
 
-dataset = load_from_disk('./path_to_custom_dataset')
+dataset = load_from_disk("path_to_custom_dataset_5W1H")
 
 # model_name="huggingface_llama2_models"
 # model_name="ainize/kobart-news"
-model_name="beomi/open-llama-2-ko-7b"
+# model_name="beomi/open-llama-2-ko-7b"
 # model_name="saltlux/Ko-Llama3-Luxia-8B"
-# model_name="beomi/llama-2-koen-13b"
-<<<<<<< HEAD
-model_name="Bllossom/llama-3-Korean-Bllossom-70B"
-=======
->>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
+model_name="beomi/llama-2-koen-13b"
 
 
 model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto", use_auth_token=os.environ["huggingface_token"])
@@ -27,8 +24,8 @@ tokenizer.pad_token = tokenizer.eos_token
 tokenizer.padding_side = "right"
 
 training_args = transformers.TrainingArguments(
-            output_dir="./path_to_save_model",
-            num_train_epochs=2,
+            output_dir=save_path,
+            num_train_epochs=3,
             per_device_train_batch_size=4,
             per_device_eval_batch_size=4,
             gradient_accumulation_steps=1,
@@ -46,6 +43,10 @@ training_args = transformers.TrainingArguments(
             lr_scheduler_type='cosine',
         )
 
+from accelerate import Accelerator
+
+accelerator = Accelerator()
+
 trainer = SFTTrainer(
     model,
     tokenizer=tokenizer,
@@ -57,5 +58,7 @@ trainer = SFTTrainer(
 
 trainer.train()
 
-model.save_pretrained("./path_to_save_model")
-tokenizer.save_pretrained("./path_to_save_model")
+model.save_pretrained(save_path)
+tokenizer.save_pretrained(save_path)
+
+# export HF_HOME=/home/nata20034/.cache/huggingface/hub
