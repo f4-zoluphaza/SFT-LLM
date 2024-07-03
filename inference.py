@@ -53,13 +53,8 @@ You must generate answers according to the following rules.
 2. Write the sentences based on the news content provided.
 3. The answer should be no more than 700 characters.
 Remember to write the sentences you make based on the news content provided.
-<<<<<<< HEAD
-Never make up new content.
-
-=======
 You must only generate new information based on the contents of the provided news, and not invent anything arbitrarily.
 Never make up new content.
->>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
 '''
 
 prompt_template = f'''
@@ -82,7 +77,6 @@ instruction: {instruction}  뉴스기사 데이터: {question}
 # '''
 
 inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
->>>>>>> 8270803e50f2cef31e064ae0b3ee7c31a69c7e5d
 
 
 # Generate
