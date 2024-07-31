@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 dataset = []
-with jsonlines.open("./5W1H_news.jsonl") as f:
+with jsonlines.open("./5W1H_A_5W1H.jsonl") as f:
     for line in f.iter():
       dataset.append(f'<s>### Instruction: \n{line["inputs"]} \n\n### Response: \n{line["response"]}</s>')
 
