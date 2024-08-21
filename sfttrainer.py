@@ -8,7 +8,7 @@ import os
 os.environ["huggingface_token"] = "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" 
 save_path = "path_to_save_model_5W1H_epochs3_llama2_13b"
 
-dataset = load_from_disk("path_to_custom_dataset_5W1H")
+dataset = load_from_disk("path_to_custom_dataset_5W1H_response")
 
 # model_name="huggingface_llama2_models"
 # model_name="ainize/kobart-news"
