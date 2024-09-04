@@ -5,34 +5,36 @@ import os
 os.environ["huggingface_token"] = "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" 
 
 question = '''
-누가 (Who): 한화 이글스와 두산 베어스
-
+누가 (Who): SSG 랜더스와 KIA 타이거즈
 언제 (When): 2024년 6월 12일
-
-어디서 (Where): 서울 잠실구장
-
+어디서 (Where): 인천 SSG랜더스필드
 무엇을 (What):
-1. 한화 이글스가 두산 베어스와의 경기에서 4-3으로 승리.
-2. 김경문 감독이 9회초 1사 1, 3루 상황에서 대타 문현빈에게 스퀴즈번트를 지시하여 결승점을 뽑음.
-3. 김경문 감독이 경기 후 문현빈과 하이파이브를 하며 승리를 축하.
+1. KIA 타이거즈가 SSG 랜더스와의 경기에서 0-5로 뒤지던 경기를 13-7로 역전승.
+2. 최형우가 한 경기 최다 6타점을 기록하며 KBO리그 역대 개인 통산 최다 루타 대기록 달성.
+3. 이우성의 주루 플레이와 3안타 활약이 승리에 결정적인 기여.
 
 어떻게 (How):
-1. 한화는 3-3으로 맞선 9회초, 1사 1, 3루 상황에서 문현빈이 스퀴즈번트로 결승점을 기록.
-2. 김경문 감독이 강공 위주에서 벗어나 스퀴즈번트를 선택, 이 작전이 주효하여 승리를 거둠.
-3. 두산 이승엽 감독은 스퀴즈 작전에 대비했으나 100% 스퀴즈는 예상치 못했다고 언급.
-4. 김경문 감독은 연장을 피하고자 9회에 승부를 내기 위해 스퀴즈 작전을 선택했다고 밝힘.
+1. 6회초, KIA가 2-5로 추격하는 상황에서 이우성이 안타를 치고 나가 소크라테스의 안타 때 2루까지 진루.
+2. 김태군의 보내기 번트 시도 중 이우성이 3루로 뛰었으나 SSG 포수 김민식의 빠른 송구로 인해 아웃될 위기.
+3. 3루심이 세이프 선언, 비디오 판독 결과도 세이프 판정 유지.
+4. 이우성의 간절한 주루와 최정의 약간의 안일한 태그가 변수로 작용.
+5. 이우성이 3루에 살아남으며 김태군이 우중간 1타점 적시타로 역전 신호탄.
+6. KIA는 6회와 7회 연속 타자일순하며 각각 4점, 7점을 추가해 역전승.
 
 왜 (Why):
-1. 김경문 감독은 연장전이 불펜 소모를 크게 하고 이후 경기에도 나쁜 영향을 끼칠 수 있어 연장을 피하고자 했음.
-2. 한화는 시즌 중반 6위 NC 다이노스와 5위 SSG 랜더스를 추격하며 순위 상승을 노리고 있음.
-3. 김경문 감독은 팬들을 위해 한 경기, 한 경기 최선을 다하겠다는 의지를 보이며 팀의 분발을 촉구.
+1. KIA는 전날 연장 접전패를 설욕하기 위해 경기에서 승리를 노림.
+2. 이우성의 결정적인 주루 플레이와 팀의 타자일순 공격이 역전승의 주된 요인.
+3. SSG는 초반 5점 리드를 지키지 못하고 대량 실점하며 역전패.
+
+감독과 선수의 인터뷰:
+인터뷰 없음
 '''
 
 # model_path='beomi/open-llama-2-ko-7b'
 # model_path='./path_to_save_model'
 # model_path = 'beomi/llama-2-koen-13b'
-# model_path = 'path_to_save_model_json204_epochs3_llama2_13b'
 model_path = 'path_to_save_model_5W1H_epochs3_llama2_13b'
+# model_path = 'path_to_save_model_5W1H_response_epochs4_'
 
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="auto", use_auth_token=os.environ["huggingface_token"])
 tokenizer = AutoTokenizer.from_pretrained(model_path, use_auth_token=os.environ["huggingface_token"])
@@ -75,6 +77,7 @@ inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
 generate_ids = model.generate(inputs.input_ids, max_length=4096, repetition_penalty = 1)
 generated_text=tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
+# 뉴스레터 반복이 안 되게 하는 함수
 def remove_before_first_star_and_after_fifth_star(text):
   # 첫 번째와 다섯 번째 *의 위치를 저장할 변수
   first_star_index = -1
@@ -102,7 +105,27 @@ def remove_before_first_star_and_after_fifth_star(text):
   # 첫 번째 * 이후와 다섯 번째 * 이전의 문자열 반환
   return text[first_star_index:fifth_star_index]
 
-generated_text = remove_before_first_star_and_after_fifth_star(generated_text)
-print(generated_text)
+# 제목괴 내용을 분리해주는 함수
+def split_title_and_content(text):
+  first_start_index = -1
+  fourth_start_index = -1
+  star_count = 0
 
+  for index, char in enumerate(text):
+    if char == "*":
+      star_count += 1
+      if star_count == 1:
+        first_start_index = index 
+      elif star_count == 4:
+        fourth_start_index = index 
+        break
+  
+  title = text[first_start_index:fourth_start_index+1]
+  content = text[fourth_start_index+1:]
+  return title, content
+
+generated_text = remove_before_first_star_and_after_fifth_star(generated_text)
+title, content = split_title_and_content(generated_text)
+print("제목" + title)
+print("내용" + "\n" + content)
 # export HF_HOME=/media1/models/
