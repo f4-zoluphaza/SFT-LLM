@@ -51,9 +51,9 @@ You must only generate new information based on the contents of the provided new
 Never make up new content.
 '''
 
-prompt_template = f'''
-뉴스기사 데이터: {question} instruction: {instruction} 
-'''
+# prompt_template = f'''
+# 뉴스기사 데이터: {question} instruction: {instruction} 
+# '''
 
 prompt_template = f'''
 instruction: {instruction}  뉴스기사 데이터: {question}

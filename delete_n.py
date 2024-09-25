@@ -30,7 +30,7 @@ def replace_newlines_with_spaces(file_path):
         file.write(cleaned_content)
 
 # 함수 호출하여 큰따옴표를 작은따옴표로 변경
-process_jsonl_file(file_path)
+# process_jsonl_file(file_path)
 
 # 함수 호출하여 줄 바꿈 문자를 띄어쓰기로 변경
 replace_newlines_with_spaces(file_path)
