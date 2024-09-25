@@ -6,7 +6,7 @@ from trl import SFTTrainer
 import os
 
 os.environ["huggingface_token"] = "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" 
-save_path = "path_to_save_model_5W1H_epochs3_llama2_13b"
+save_path = "path_to_save_model_5W1H_response_epochs4_"
 
 dataset = load_from_disk("path_to_custom_dataset_5W1H_response")
 
@@ -25,7 +25,7 @@ tokenizer.padding_side = "right"
 
 training_args = transformers.TrainingArguments(
             output_dir=save_path,
-            num_train_epochs=3,
+            num_train_epochs=4,
             per_device_train_batch_size=4,
             per_device_eval_batch_size=4,
             gradient_accumulation_steps=1,
