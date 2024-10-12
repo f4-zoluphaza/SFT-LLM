@@ -2,7 +2,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import os
 
-os.environ["huggingface_token"] = "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" 
+os.environ["huggingface_token"] = "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" 
 
 question = '''
 누가 (Who): SSG 랜더스와 KIA 타이거즈
@@ -33,7 +33,10 @@ question = '''
 # model_path='beomi/open-llama-2-ko-7b'
 # model_path='./path_to_save_model'
 # model_path = 'beomi/llama-2-koen-13b'
-model_path = 'path_to_save_model_5W1H_epochs3_llama2_13b'
+# model_path = 'path_to_save_model_5W1H_epochs3_llama2_13b'
+
+
+model_path = 'sieun1002/newsletter_5W1H_interview'
 # model_path = 'path_to_save_model_5W1H_response_epochs4_'
 
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="auto", use_auth_token=os.environ["huggingface_token"])
