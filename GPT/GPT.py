@@ -1,8 +1,12 @@
 import json
+import os
 from openai import OpenAI
 
 # 육하원칙 생성 함수 (gpt 사용)
 def get_llm_response(promt, news):
+  api_key = os.getenv('OPENAI_API_KEY')  # 환경 변수에서 API 키 불러오기
+  if not api_key:
+      raise ValueError("API 키가 설정되지 않았습니다. 환경 변수를 확인하세요.")
   client = OpenAI(api_key="api키 입력하면 됨")
   response = client.chat.completions.create(
     model="gpt-4o",
