@@ -5,39 +5,25 @@ import os
 os.environ["huggingface_token"] = "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" 
 
 question = '''
-누가 (Who): SSG 랜더스와 KIA 타이거즈
-언제 (When): 2024년 6월 12일
-어디서 (Where): 인천 SSG랜더스필드
+누가 (Who): LG 트윈스와 NC 다이노스
+언제 (When): 2024년 8월 11일
+어디서 (Where): 잠실야구장
 무엇을 (What):
-1. KIA 타이거즈가 SSG 랜더스와의 경기에서 0-5로 뒤지던 경기를 13-7로 역전승.
-2. 최형우가 한 경기 최다 6타점을 기록하며 KBO리그 역대 개인 통산 최다 루타 대기록 달성.
-3. 이우성의 주루 플레이와 3안타 활약이 승리에 결정적인 기여.
-
+1. LG 트윈스의 구본혁이 9회초 실책으로 인해 팀을 패배 위기에 빠트렸으나, 9회말 박동원의 끝내기 안타로 팀이 역전승을 거두었다.
+2. LG 트윈스가 오스틴의 솔로 홈런과 박동원의 2타점 역전 끝내기 2루타로 4-3의 승리를 기록.
+3. 박동원이 경기 후 구본혁과 기쁨을 나누며 팀의 위기를 극복.
 어떻게 (How):
-1. 6회초, KIA가 2-5로 추격하는 상황에서 이우성이 안타를 치고 나가 소크라테스의 안타 때 2루까지 진루.
-2. 김태군의 보내기 번트 시도 중 이우성이 3루로 뛰었으나 SSG 포수 김민식의 빠른 송구로 인해 아웃될 위기.
-3. 3루심이 세이프 선언, 비디오 판독 결과도 세이프 판정 유지.
-4. 이우성의 간절한 주루와 최정의 약간의 안일한 태그가 변수로 작용.
-5. 이우성이 3루에 살아남으며 김태군이 우중간 1타점 적시타로 역전 신호탄.
-6. KIA는 6회와 7회 연속 타자일순하며 각각 4점, 7점을 추가해 역전승.
-
+1. 구본혁은 9회초 2사 2,3루 상황에서 김성욱의 땅볼을 처리 실패하여 두 명의 주자가 홈을 밟고 1-3으로 역전당함.
+2. 9회말 오스틴이 솔로 홈런으로 1점차로 추격.
+3. 박동원이 2사 1,2루에서 좌측 펜스를 맞히는 2타점 역전 끝내기 2루타를 기록하여 경기를 4-3으로 마무리.
 왜 (Why):
-1. KIA는 전날 연장 접전패를 설욕하기 위해 경기에서 승리를 노림.
-2. 이우성의 결정적인 주루 플레이와 팀의 타자일순 공격이 역전승의 주된 요인.
-3. SSG는 초반 5점 리드를 지키지 못하고 대량 실점하며 역전패.
-
-감독과 선수의 인터뷰:
-인터뷰 없음
+1. LG 트윈스는 5연승에 도전 중이며, 팀의 꾸준한 라인업과 선수들의 활약으로 연승 행진을 지속.
+2. 구본혁은 개인 실책에도 불구하고 팀 플레이에 기여하며 부담을 덜어냄. 
+3. 함덕주와 박명근의 1군 합류로 불펜진 강화, 이는 김진성의 부담을 덜어줄 것으로 기대.
 '''
 
-# model_path='beomi/open-llama-2-ko-7b'
-# model_path='./path_to_save_model'
-# model_path = 'beomi/llama-2-koen-13b'
-# model_path = 'path_to_save_model_5W1H_epochs3_llama2_13b'
-
-
-model_path = 'sieun1002/newsletter_5W1H_interview'
-# model_path = 'path_to_save_model_5W1H_response_epochs4_'
+model_path = '/media1/models/hub/model_llama2_5W1H_0925'
+# model_path="sieun1002/newsletter_5W1H_interview"
 
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="auto", use_auth_token=os.environ["huggingface_token"])
 tokenizer = AutoTokenizer.from_pretrained(model_path, use_auth_token=os.environ["huggingface_token"])
@@ -54,30 +40,18 @@ You must only generate new information based on the contents of the provided new
 Never make up new content.
 '''
 
-# prompt_template = f'''
-# 뉴스기사 데이터: {question} instruction: {instruction} 
-# '''
+
 
 prompt_template = f'''
 instruction: {instruction}  뉴스기사 데이터: {question}
 '''
 
 
-
-# prompt_template = f'''
-# ###지시 : {instruction}\n\n  ### 뉴스기사: {question} \n\n ### 답변:
-# '''
-
-
-# prompt_template = f'''
-# 뉴스기사 데이터: {question}
-# '''
-
-inputs = tokenizer(prompt_template, return_tensors="pt").to("cuda")
+inputs = tokenizer(prompt_template, return_tensors="pt", padding=True, truncation=True, max_length=512).to("cuda")
 
 
 # Generate
-generate_ids = model.generate(inputs.input_ids, max_length=4096, repetition_penalty = 1)
+generate_ids = model.generate(inputs.input_ids, max_length=1500, repetition_penalty=1.2)
 generated_text=tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
 # 뉴스레터 반복이 안 되게 하는 함수
@@ -129,6 +103,9 @@ def split_title_and_content(text):
 
 generated_text = remove_before_first_star_and_after_fifth_star(generated_text)
 title, content = split_title_and_content(generated_text)
-print("제목" + title)
-print("내용" + "\n" + content)
+print(title)
+print(content)
+
+# 모델 실행 후 GPU 캐시 삭제
+torch.cuda.empty_cache()
 # export HF_HOME=/media1/models/
